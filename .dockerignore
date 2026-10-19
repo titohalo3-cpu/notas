@@ -1,0 +1,34 @@
+# Historial y metadatos de Git
+.git
+.gitignore
+
+# Secretos y configuración local (nunca dentro de la imagen)
+.env
+.env.*
+*.env
+
+# Versión deliberadamente insegura que solo se usa para la auditoría
+sin-revisar/
+
+# Documentación y entregables
+README.md
+prompts.md
+*.md
+*.pdf
+capturas/
+registros/
+
+# Basura de Python y entornos locales
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.venv/
+venv/
+
+# Sistema operativo y editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

@@ -1,0 +1,45 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: notas-web:latest
+    ports:
+      - "8000:8000"
+    environment:
+      REDIS_URL: redis://cache:6379/0
+      TITULO_APP: ${TITULO_APP:-Tablón de notas}
+      CLAVE_ADMIN: ${CLAVE_ADMIN:?Define CLAVE_ADMIN en el fichero .env}
+    depends_on:
+      cache:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import sys, urllib.request; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/salud', timeout=2).status == 200 else 1)"
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+
+  cache:
+    image: redis:7.2-alpine
+    # AOF: cada escritura queda persistida en el volumen nombrado.
+    command: ["redis-server", "--appendonly", "yes"]
+    # Sin "ports": Redis solo es accesible desde la red interna de Compose.
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+    restart: unless-stopped
+
+volumes:
+  redis-data:
+    name: notas_redis-data
