@@ -4,6 +4,8 @@ Aplicación Flask que guarda notas en Redis. Este repositorio contiene la
 contenerización de producción, una versión deliberadamente insegura para la
 auditoría (`sin-revisar/`) y la documentación de la práctica.
 
+Repositorio: <https://github.com/titohalo3-cpu/notas>
+
 ## 1. Requisitos
 
 - Docker Engine 24 o superior con el plugin Compose v2
